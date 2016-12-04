@@ -1,0 +1,92 @@
+<html>
+	<head>
+	<title>Sworder</title>
+	<script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
+	<script src="js/classes.js"></script>
+	</head>
+
+	<body onload="init();">
+	<canvas id="gameCanvas"></canvas>
+	<script>
+
+	var update = true;
+
+	function init() {
+		stage = new createjs.Stage("gameCanvas");
+		canvas = document.getElementById("gameCanvas");
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+		player = new player(30,30, canvas.width, canvas.height);
+		stage.addChild(player.sprite);
+		player.update();
+
+		window.addEventListener("keydown", player.onKeyDown, false);
+	    window.addEventListener("keyup", player.onKeyUp, false);
+
+		// image.src = "resources/testicles.png";
+		// var bitmap;
+		// for (var i =0; i < 100; i++) {
+		// 	// circle = new createjs.Shape();
+		// 	// circle.graphics.beginFill("#4D0BB8").drawCircle(0,0,25);
+		// 	bitmap = new createjs.Bitmap(image);
+		// 	stage.addChild(bitmap);
+
+		// 	bitmap.x = Math.floor(canvas.width * Math.random());
+		// 	bitmap.y = Math.floor(canvas.height * Math.random());
+		// 	bitmap.scaleX = bitmap.scaleY = bitmap.scale = .2;
+		// }
+
+		// circle = new createjs.Shape();
+		// circle.graphics.beginFill("purple").drawCircle(0,0,25);
+		// circle.x = circle.y = 50;
+		
+		//stage.addChild(circle);
+
+		createjs.Ticker.addEventListener("tick", tick);
+		createjs.Ticker.setFPS(144);
+		run();
+	}
+
+	function run() {
+		for (var i = 0; i < stage.children.length; i++) {
+			bitmap = stage.children[i]
+			bitmap.on("pressmove", function(event) {
+				this.x = event.stageX;
+				this.y = event.stageY;
+				update = true;
+			})
+		}
+
+	}
+	function tick(event) {
+		// for (var i = 0; i < stage.children.length; i++) {
+		// 	c = stage.children[i];
+		// 	if (c.y == canvas.height) {
+		// 		c.y = 0;
+		// 	}
+		// 	c.y += 1;
+		// 	update = true;
+		// }
+
+		player.update(stage.mouseX, stage.mouseY);
+		stage.update(event);
+		if (update) {
+			update = false;
+			stage.update(event);
+		}
+	}
+	</script>
+	</body>	
+	<style>
+	 .box {
+	 	background-color: blue;
+	 	width: 100%;
+	 	height: 100%;
+	 }
+	 html, body {
+	 	width: 100%;
+	 	height: 100%;
+	 	margin: 0px;
+	 }
+
+</html>
